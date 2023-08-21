@@ -3,22 +3,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
-import java.io.CharArrayWriter;
-
-import java.time.LocalDateTime;
 
 public class WordFrequencyGame {
+
+    private static final String SPACE_DELIMITER = "\\s+";
+    private static final String NEWLINE_DELIMITER = "\n";
+    private static final String SPACE_CHAR = " ";
+    private static final String CALCULATE_ERROR = "Calculate Error";
+
     public String getResult(String inputStr){
 
 
-        if (inputStr.split("\\s+").length==1) {
+        if (inputStr.split(SPACE_DELIMITER).length==1) {
             return inputStr + " 1";
         } else {
 
             try {
 
-                //split the input string with 1 to n pieces of spaces
-                String[] arr = inputStr.split("\\s+");
+                String[] arr = inputStr.split(SPACE_DELIMITER);
 
                 List<Input> inputList = new ArrayList<>();
                 for (String s : arr) {
@@ -26,7 +28,6 @@ public class WordFrequencyGame {
                     inputList.add(input);
                 }
 
-                //get the map for the next step of sizing the same word
                 Map<String, List<Input>> map =getListMap(inputList);
 
                 List<Input> list = new ArrayList<>();
@@ -38,16 +39,16 @@ public class WordFrequencyGame {
 
                 inputList.sort((w1, w2) -> w2.getWordCount() - w1.getWordCount());
 
-                StringJoiner joiner = new StringJoiner("\n");
+                StringJoiner joiner = new StringJoiner(NEWLINE_DELIMITER);
                 for (Input w : inputList) {
-                    String s = w.getValue() + " " +w.getWordCount();
+                    String s = w.getValue() + SPACE_CHAR +w.getWordCount();
                     joiner.add(s);
                 }
                 return joiner.toString();
             } catch (Exception e) {
 
 
-                return "Calculate Error";
+                return CALCULATE_ERROR;
             }
         }
     }
@@ -56,7 +57,6 @@ public class WordFrequencyGame {
     private Map<String,List<Input>> getListMap(List<Input> inputList) {
         Map<String, List<Input>> map = new HashMap<>();
         for (Input input :  inputList){
-//       map.computeIfAbsent(input.getValue(), k -> new ArrayList<>()).add(input);
             if (!map.containsKey(input.getValue())){
                 ArrayList arr = new ArrayList<>();
                 arr.add(input);
