@@ -31,11 +31,9 @@ public class WordFrequencyGame {
 
         List<WordFrequencyInfo> wordFrequencyInfoList = getWordFrequencyInfoList(words);
 
-        Map<String, List<WordFrequencyInfo>> frequencyInfoList = getListMap(wordFrequencyInfoList);
+        Map<String, List<WordFrequencyInfo>> frequencyInfoList = getWordsFrequencyInfoMap(wordFrequencyInfoList);
 
-        List<WordFrequencyInfo> list = getWordFrequencyInfoWithCount(frequencyInfoList);
-
-        wordFrequencyInfoList = list;
+        wordFrequencyInfoList = getWordFrequencyInfoWithCount(frequencyInfoList);
 
         wordFrequencyInfoList.sort((firstWord, secondWord) -> secondWord.getWordCount() - firstWord.getWordCount());
         return wordFrequencyInfoList;
@@ -61,20 +59,21 @@ public class WordFrequencyGame {
     }
 
 
-    private Map<String, List<WordFrequencyInfo>> getListMap(List<WordFrequencyInfo> wordFrequencyInfoList) {
-        Map<String, List<WordFrequencyInfo>> map = new HashMap<>();
+    private Map<String, List<WordFrequencyInfo>> getWordsFrequencyInfoMap(List<WordFrequencyInfo> wordFrequencyInfoList) {
+        Map<String, List<WordFrequencyInfo>> stringWordFrequencyInfoMap = new HashMap<>();
+
         for (WordFrequencyInfo wordFrequencyInfo : wordFrequencyInfoList) {
-            if (!map.containsKey(wordFrequencyInfo.getWord())) {
-                ArrayList arr = new ArrayList<>();
-                arr.add(wordFrequencyInfo);
-                map.put(wordFrequencyInfo.getWord(), arr);
+            if (!stringWordFrequencyInfoMap.containsKey(wordFrequencyInfo.getWord())) {
+                ArrayList<WordFrequencyInfo> wordFrequencyInfoArrayList = new ArrayList<>();
+                wordFrequencyInfoArrayList.add(wordFrequencyInfo);
+                stringWordFrequencyInfoMap.put(wordFrequencyInfo.getWord(), wordFrequencyInfoArrayList);
             } else {
-                map.get(wordFrequencyInfo.getWord()).add(wordFrequencyInfo);
+                stringWordFrequencyInfoMap.get(wordFrequencyInfo.getWord()).add(wordFrequencyInfo);
             }
         }
 
 
-        return map;
+        return stringWordFrequencyInfoMap;
     }
 
 
