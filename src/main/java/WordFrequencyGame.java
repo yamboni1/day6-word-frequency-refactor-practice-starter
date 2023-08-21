@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class WordFrequencyGame {
@@ -19,7 +16,7 @@ public class WordFrequencyGame {
             return inputStr + " 1";
         } else {
             try {
-                List<WordFrequencyInfo> wordFrequencyInfoList = getWordFrequencyInfo(inputStr);
+                List<WordFrequencyInfo> wordFrequencyInfoList = getWordFrequencyInfoList(inputStr);
 
                 return generatePrintLines(wordFrequencyInfoList);
             } catch (Exception e) {
@@ -29,14 +26,10 @@ public class WordFrequencyGame {
         }
     }
 
-    private List<WordFrequencyInfo> getWordFrequencyInfo(String inputStr) {
+    private List<WordFrequencyInfo> getWordFrequencyInfoList(String inputStr) {
         String[] words = inputStr.split(SPACE_DELIMITER);
 
-        List<WordFrequencyInfo> wordFrequencyInfoList = new ArrayList<>();
-        for (String word : words) {
-            WordFrequencyInfo wordFrequencyInfo = new WordFrequencyInfo(word, ONE);
-            wordFrequencyInfoList.add(wordFrequencyInfo);
-        }
+        List<WordFrequencyInfo> wordFrequencyInfoList = getWordFrequencyInfoList(words);
 
         Map<String, List<WordFrequencyInfo>> frequencyInfoList = getListMap(wordFrequencyInfoList);
 
@@ -45,10 +38,17 @@ public class WordFrequencyGame {
             WordFrequencyInfo wordFrequencyInfo = new WordFrequencyInfo(entry.getKey(), entry.getValue().size());
             list.add(wordFrequencyInfo);
         }
+
         wordFrequencyInfoList = list;
 
         wordFrequencyInfoList.sort((firstWord, secondWord) -> secondWord.getWordCount() - firstWord.getWordCount());
         return wordFrequencyInfoList;
+    }
+
+    private static List<WordFrequencyInfo> getWordFrequencyInfoList(String[] words) {
+        return Arrays.stream(words).map(word -> new WordFrequencyInfo(word, ONE))
+                .collect(Collectors.toList());
+
     }
 
     private static String generatePrintLines(List<WordFrequencyInfo> wordFrequencyInfoList) {
