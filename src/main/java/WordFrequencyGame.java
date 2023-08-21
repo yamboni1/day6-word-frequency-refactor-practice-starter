@@ -33,16 +33,18 @@ public class WordFrequencyGame {
 
         Map<String, List<WordFrequencyInfo>> frequencyInfoList = getListMap(wordFrequencyInfoList);
 
-        List<WordFrequencyInfo> list = new ArrayList<>();
-        for (Map.Entry<String, List<WordFrequencyInfo>> entry : frequencyInfoList.entrySet()) {
-            WordFrequencyInfo wordFrequencyInfo = new WordFrequencyInfo(entry.getKey(), entry.getValue().size());
-            list.add(wordFrequencyInfo);
-        }
+        List<WordFrequencyInfo> list = getWordFrequencyInfoWithCount(frequencyInfoList);
 
         wordFrequencyInfoList = list;
 
         wordFrequencyInfoList.sort((firstWord, secondWord) -> secondWord.getWordCount() - firstWord.getWordCount());
         return wordFrequencyInfoList;
+    }
+
+    private static List<WordFrequencyInfo> getWordFrequencyInfoWithCount(Map<String, List<WordFrequencyInfo>> frequencyInfoList) {
+        return frequencyInfoList.entrySet().stream()
+                .map(entry -> new WordFrequencyInfo(entry.getKey(), entry.getValue().size()))
+                .collect(Collectors.toList());
     }
 
     private static List<WordFrequencyInfo> getWordFrequencyInfoList(String[] words) {
