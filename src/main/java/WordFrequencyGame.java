@@ -31,9 +31,9 @@ public class WordFrequencyGame {
 
         List<WordFrequencyInfo> wordFrequencyInfoList = getWordFrequencyInfoList(words);
 
-        Map<String, List<WordFrequencyInfo>> frequencyInfoList = getWordsFrequencyInfoMap(wordFrequencyInfoList);
+        Map<String, List<WordFrequencyInfo>> frequencyInfoMap = getWordsFrequencyInfoMap(wordFrequencyInfoList);
 
-        wordFrequencyInfoList = getWordFrequencyInfoWithCount(frequencyInfoList);
+        wordFrequencyInfoList = getWordFrequencyInfoWithCount(frequencyInfoMap);
 
         wordFrequencyInfoList.sort((firstWord, secondWord) -> secondWord.getWordCount() - firstWord.getWordCount());
         return wordFrequencyInfoList;
@@ -70,6 +70,7 @@ public class WordFrequencyGame {
             } else {
                 stringWordFrequencyInfoMap.get(wordFrequencyInfo.getWord()).add(wordFrequencyInfo);
             }
+
         });
 
 
